@@ -1,21 +1,46 @@
-const UserModel = require('../models/UserModel');
-const bcrypt = require('bcrypt');
-const AuthController = {
-    login: async (req, res) => {
-        res.json(200,"message");
-    },
-    register: async (req, res) => {
-        console.log(req.body);
-        const {name, email} = req.body;
-        const password = await bcrypt.hash(req.body.password, 10);
-        const user = new UserModel({name, email, password});
-        await user.save();
-        return res.status(200).json({
-            status: 200,
-            data:user,
-            message: "Register successfully"
-        })
-    }
-}
+const AuthService = require("../service/AuthService");
+const bcrypt = require("bcrypt");
 
-module.exports = AuthController
+const AuthController = {
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await AuthService.login({ email, password });
+
+      return res.status(200).json({
+        status: true,
+        message: "Login successfully",
+        data: user,
+      });
+    } catch (error) {
+      return res.status(error.status || 400).json({
+        status: false,
+        message: error.message || "Something went wrong",
+      });
+    }
+  },
+
+  register: async (req, res) => {
+    try {
+      const { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await AuthService.register({
+        name,
+        email,
+        password: hashedPassword,
+      });
+      return res.status(201).json({
+        status: true,
+        message: "Register successfully",
+        data: { user, token },
+      });
+    } catch (error) {
+      return res.status(error.status || 400).json({
+        status: false,
+        message: error.message || "Something went wrong",
+      });
+    }
+  },
+};
+
+module.exports = AuthController;
