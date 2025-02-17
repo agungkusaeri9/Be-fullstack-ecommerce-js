@@ -24,7 +24,7 @@ const AuthController = {
     try {
       const { name, email, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
-      await AuthService.register({
+      const user = await AuthService.register({
         name,
         email,
         password: hashedPassword,
@@ -32,7 +32,7 @@ const AuthController = {
       return res.status(201).json({
         status: true,
         message: "Register successfully",
-        data: { user, token },
+        data: user
       });
     } catch (error) {
       return res.status(error.status || 400).json({

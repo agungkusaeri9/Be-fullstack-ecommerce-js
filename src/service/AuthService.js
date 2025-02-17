@@ -35,7 +35,6 @@ const AuthService = {
     try {
       const existingUser = await AuthService.findUserByEmail(data.email);
       if (existingUser) throw { status: 400, message: "Email already exists" };
-
       const user = new UserModel(data);
       await user.save();
       return user;
