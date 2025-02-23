@@ -1,6 +1,6 @@
 # Backend - Fullstack Ecommece Javascirpt
 
-This is a backend application built using **Node.js** and **Express**. It includes authentication features (login and register) and CRUD operations for managing categories.
+This is a backend application built using **Node.js** and **Express JS**.
 
 ## Technologies Used:
 
@@ -14,6 +14,7 @@ This is a backend application built using **Node.js** and **Express**. It includ
 
 - **Authentication**: Login and Register users with JWT.
 - **CRUD Categories**: Add, retrieve, update, and delete categories.
+- **CRUD Productt**: Add, retrieve, update, and delete products.
 
 ## Installation
 
